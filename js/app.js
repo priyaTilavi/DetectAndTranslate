@@ -8,20 +8,27 @@ var app = angular.module('detectApp', ['ngMaterial']);
             $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+$scope.target+'&q='+trans.Query).then(function(response){
                 debugger;
                 $scope.response = response.data.data.translations;
+                $scope.search(trans);
                 $scope.index=$scope.transarray.indexOf(trans)
             })
+        }
+        $scope.search = function(trans){
+              // Set the Content-Type 
+        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+        
+        // Delete the Requested With Header
+        delete $http.defaults.headers.common['X-Requested-With'];
+            $http({url:'http://api.galegroup.com/api/v1/items?collection.id=AONE&api_key=0e473e40-8db0-11e7-9d14-005056b845b8&q=war',method: 'GET',headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+        }}).then(function success(result){
+                    $scope.count = result;
+            });
         }
         
     }]);
 
-    app.directive('editable', [function () {
-    return {
-       restrict: 'A',
-       link: function (scope, elem, attrs) {
-           elem.bind('click', function(event) {
-               console.log(attrs.Editable);
-           });
-       }
-    };
-}])
-    
+    app.config(function ($httpProvider) {
+  $httpProvider.defaults.useXDomain = true;
+  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+});
+
