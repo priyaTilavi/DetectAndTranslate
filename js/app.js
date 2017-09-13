@@ -13,11 +13,7 @@ var app = angular.module('detectApp', ['ngMaterial']);
             })
         }
         $scope.search = function(trans){
-              // Set the Content-Type 
-        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-        
-        // Delete the Requested With Header
-        delete $http.defaults.headers.common['X-Requested-With'];
+            
             $http({url:'http://api.galegroup.com/api/v1/items?collection.id=AONE&api_key=0e473e40-8db0-11e7-9d14-005056b845b8&q=war',method: 'GET',headers: {
                     'Content-Type': 'application/json; charset=utf-8'
         }}).then(function success(result){
@@ -28,7 +24,6 @@ var app = angular.module('detectApp', ['ngMaterial']);
     }]);
 
     app.config(function ($httpProvider) {
-  $httpProvider.defaults.useXDomain = true;
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
 });
 

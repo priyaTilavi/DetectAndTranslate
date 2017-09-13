@@ -6,18 +6,18 @@ var bodyParser= require('body-parser');
 var index = require('./index');
 var options, app;
 app = module.exports = express();
-app.all('/*', function (request, response, next) {
-        response.header("Access-Control-Allow-Origin", "*");
-        response.header("Access-Control-Allow-Headers", "X-Requested-With");
-        response.header("Access-Control-Allow-Methods", "GET, POST", "PUT", "DELETE");
-        next();
-    });
+app.all("/api/*", function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization,   Content-Type, X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    return next();
+})
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = 3000 ;
+var port = 8000 ;
 app.set('port', port);
 app.use(express.static(__dirname));
 /**
