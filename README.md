@@ -1,1 +1,1 @@
-# DetectAndTranslatee
+# DetectAndTranslate navya
