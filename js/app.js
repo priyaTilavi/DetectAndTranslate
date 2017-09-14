@@ -14,7 +14,7 @@ var app = angular.module('detectApp', ['ngMaterial']);
         }
         $scope.search = function(trans){
             
-            $http({url:'http://api.galegroup.com/api/v1/items?collection.id=AONE&q=war&api_key=b2ee18c0-98f4-11e7-a0a0-005056b83960',method: 'GET',headers: {
+            $http({url:'http://api.galegroup.com/api/v1/items?collection.id=AONE&q=war&api_key=d59c84a0-98fa-11e7-a0a0-005056b83960',method: 'GET',headers: {
                     'Content-Type': 'application/json; charset=utf-8'
         }}).then(function success(result){
                     $scope.count = result;
