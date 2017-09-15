@@ -26,7 +26,7 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
 
     app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
         $scope.target='en';
-        $scope.show = false;
+        $scope.show = "translate";
         $scope.translatesearch = function(){
             $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+$scope.target+'&q='+$scope.word).then(function(response){
                 debugger;
@@ -48,7 +48,7 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
         $scope.translateTitle = function(r){
             $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+$scope.targettitle+'&q='+r.title).then(function(response){
                 debugger;
-                $scope.show = true;
+                $scope.targettitle = 'en';
                 $scope.translatedTitle = response.data.data.translations;
                 r.translatedTitle = $scope.translatedTitle[0].translatedText;
             })
