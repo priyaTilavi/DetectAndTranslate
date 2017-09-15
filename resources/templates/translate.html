@@ -1,0 +1,29 @@
+<md-whiteframe class="md-whiteframe-4dp"  layout-align="center center">
+    <br>
+    <div layout-gt-xs="row">
+        <span flex="10"></span>
+        <md-input-container flex="50">
+            <label>Type a word to search</label>
+            <input ng-model="word" >
+        </md-input-container>
+        <span flex="10"></span>
+        <div layout="row">
+            <div layout="column"><md-button class="md-raised md-warn" ng-click="translatesearch()">translateAndSearch</md-button></div>
+            <div layout="column"><md-button class="md-primary md-raised" ng-click="translate()">search</md-button></div>
+        </div>
+    </div>
+    <h3 ng-if="result">Results:{{countresults}}</h3>
+    <div layout="column" ng-repeat="r in result|limitTo:10" flex>
+        <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" ng-if="!r.translatedTitle">{{r.title}}</span>
+            <span class="md-headline" ng-if="r.translatedTitle">{{r.translatedTitle}}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-click="translateTitle(r)" class="md-raised">translate</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+</md-whiteframe>
