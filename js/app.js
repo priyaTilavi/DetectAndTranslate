@@ -34,6 +34,7 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
                 var word = $scope.word;
                 var translatedword = $scope.response[0].translatedText;
                 $scope.targettitle = $scope.response[0].detectedSourceLanguage;
+                if($scope.show == "translate"){$scope.show == "translate"}
                 $scope.search(translatedword);
             })
         }
@@ -41,6 +42,7 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
             $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+$scope.target+'&q='+$scope.word).then(function(response){
                 debugger;
                 $scope.response = response.data.data.translations;
+                $scope.show = "translate to"+$scope.target;
                 var word = $scope.word;
                 $scope.search(word);
             })
@@ -48,7 +50,14 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
         $scope.translateTitle = function(r){
             $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+$scope.targettitle+'&q='+r.title).then(function(response){
                 debugger;
-                $scope.targettitle = 'en';
+                if($scope.show == "translate"){
+                    $scope.targettitle = 'en';
+                    $scope.show = "translate to English";
+                }else{
+                    $scope.targettitle =$scope.response[0].detectedSourceLanguage;
+                    $scope.show = "translate";
+                }
+                
                 $scope.translatedTitle = response.data.data.translations;
                 r.translatedTitle = $scope.translatedTitle[0].translatedText;
             })
