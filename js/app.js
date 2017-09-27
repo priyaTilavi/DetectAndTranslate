@@ -13,7 +13,6 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
             })
         }
         $scope.search = function(trans){
-            
             $http({url:'http://api-as01.dev.gale.web:8080/api/v1/items?q=happy&api_key=api-1234',method: 'GET',headers: {
                     'Content-Type': 'application/json; charset=utf-8'
         }}).then(function success(result){

@@ -1,1 +1,1 @@
-# DetectAndTranslatee
+detect and translate
