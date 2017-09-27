@@ -13,8 +13,9 @@
                         <td>{{trans.Query}}<td>
                         <td><md-button ng-click="translate(trans)"><md-icon class="material-icons">arrow_forward</md-icon></md-button></td>
                         <td ng-if="$index == index">{{response[0].translatedText}} </td> 
+
                         <td ng-if="$index == index">{{response[0].detectedSourceLanguage}} </td> 
-                            {{count}}
+                            {{count}}a
                     </tr> 
                      
                 </table>
