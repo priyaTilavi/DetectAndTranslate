@@ -26,6 +26,7 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
 app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.target='en';
     $scope.show = "translate";
+    $scope.translated = false;
     $scope.translationLanguage= "";
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
@@ -36,6 +37,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.targettitle = $scope.response[0].detectedSourceLanguage;
             $scope.translationLanguage =  $scope.response[0].detectedSourceLanguage;
             $scope.search(translatedword);
+            $scope.translated = true;
         })
     }
     $scope.translate = function(target,word){
@@ -79,23 +81,23 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
         //var word = $scope.word;
         var testUrl='https://newsapi.org/v1/articles?source='+word.split(' ').join('')+'&apiKey=10491e51250442cd96af1b3dbeefe7f1';
         var original='http://api-as01.dev.gale.web:8080/api/v1/items?callback=JSON_CALLBACK&q='+word+'&api_key=api-1234';
-        $http({url:testUrl}).then(function success(result){
+        $http({url:original,method:'JSONP'}).then(function success(result){
             
-            // $scope.countresults = result.data.count;
-            // $scope.result = result.data.docs;
-            $scope.countresults = result.data.articles.length;
-            $scope.result = result.data.articles;
+            $scope.countresults = result.data.count;
+            $scope.result = result.data.docs;
+            // $scope.countresults = result.data.articles.length;
+            // $scope.result = result.data.articles;
+            if($scope.translated){
             var titleSearchString = '';
             var descriptionSearchString = '';
-            result.data.articles.forEach(function(element) {
+            $scope.result.forEach(function(element) {
                 titleSearchString += element.title+'|';
                 descriptionSearchString += element.description + '|';
             });
             $scope.translate($scope.translationLanguage,titleSearchString).then(function(response){
                 debugger;
                 $scope.titleTranslateResults = response.data.data.translations[0].translatedText;
-            });
-            $scope.translate($scope.translationLanguage,descriptionSearchString).then(function(response){
+                $scope.translate($scope.translationLanguage,descriptionSearchString).then(function(response){
                 debugger;
                 $scope.descriptionTranslateResults = response.data.data.translations[0].translatedText;
                 var titles = $scope.titleTranslateResults.split('|');
@@ -104,8 +106,10 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
                 titles.forEach(function(elem,i){
                     $scope.result.push({title:elem,description:descriptions[i]});
                 });
-    
             });
+            });
+            
+            }
             
         });
     }
