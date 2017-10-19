@@ -9,7 +9,7 @@
         <span flex="10"></span>
         <div layout="row">
             <div layout="column"><md-button class="md-raised md-warn" ng-click="translatesearch('en',word)">Translate And Search</md-button></div>
-            <div layout="column"><md-button class="md-primary md-raised" ng-click="translate()">search</md-button></div>
+            <div layout="column"><md-button class="md-primary md-raised" ng-click="search(word)">search</md-button></div>
         </div>
     </div>
     <h3 ng-if="result">Results:{{countresults}}</h3>
@@ -27,7 +27,7 @@
         </md-card-content>
         
         <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-click="translateTitle(r)" class="md-raised">{{show}}</md-button>
+          <md-button ng-click="translateTitle(r,$index)" class="md-raised">{{show}}</md-button>
         </md-card-actions>
       </md-card>
     </div>
