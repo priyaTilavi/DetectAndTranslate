@@ -12,24 +12,30 @@
         </div>
     </div>
     <div layout="row" ng-if="translated" >
-        <span flex="30"></span>
-        <md-radio-group ng-model="translang" layout="row" ng-change="search(translang)" style="border-style:groove;border-width:0.5ch;padding-top:5px;padding-bottom:5px;padding-right:65px;padding-left:65px;">
+        <span flex="10"></span>
+        <h4 flex="20">Your Selected Language :: {{translationLanguage}}</h4>
+        <span flex="10"></span>
+        <h4 flex="10">Translate To ::</h4>
+        <md-select flex="20" ng-model="translang" placeholder="Please select a Langugae" ng-change="search(translang)">
+          <md-option ng-value="translationLanguage">{{translationLanguage}} -- Detected Language</md-option>
+          <md-option ng-repeat="lang in languages" ng-value="lang.language" > {{lang.name}} </md-option>
+        </md-select>
+        <!-- <md-radio-group ng-model="translang" layout="row" ng-change="search(translang)" style="border-style:groove;border-width:0.5ch;padding-top:5px;padding-bottom:5px;padding-right:65px;padding-left:65px;">
             <md-radio-button value="en" class="md-primary">English</md-radio-button>
             <md-radio-button ng-value="translationLanguage" class="md-primary">{{translationLanguage}}</md-radio-button>
-        </md-radio-group>
+        </md-radio-group> -->
     </div>
-    <h3 ng-if="result">Results:{{countresults}}</h3>
-    <div layout="column" ng-repeat="r in result|limitTo:10" flex>
-        <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline" ng-if="!r.translatedTitle">{{r.title}}</span>
-            <span class="md-headline" ng-if="r.translatedTitle">{{r.translatedTitle}}</span>
-          </md-card-title-text>
-        </md-card-title>
+    <md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
+    <h3 ng-if="result" >Number of Results:{{countresults}}</h3>
+    <div layout="column" ng-repeat="r in result|limitTo:10"  layout-padding>
+        <md-card>
+        <md-card-header>
+          <md-card-header-text>
+            <span class="md-title">{{r.title}}</span>
+          </md-card-header-text>
+        </md-card-header>
           <md-card-content>
-             <span ng-if="!r.translatedDescription">{{r.description}}</span>
-            <span  ng-if="r.translatedDescription">{{r.translatedDescription}}</span>       
+             <span >{{r.description}}</span>     
         </md-card-content>
         
         <md-card-actions layout="row" layout-align="end center">

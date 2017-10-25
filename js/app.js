@@ -28,6 +28,8 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.show = "translate";
     $scope.translated = false;
     var translatedword='';
+    $scope.isLoading=false;
+    $scope.languages=[];
     $scope.translationLanguage= "";
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
@@ -37,7 +39,11 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             translatedword = $scope.response[0].translatedText;
             $scope.targettitle = $scope.response[0].detectedSourceLanguage;
             $scope.translationLanguage =  $scope.response[0].detectedSourceLanguage;
+            $scope.getAllLanguages().then(function success(response){
+                 $scope.languages = response.data.data.languages;
+            });;
             $scope.translated = true;
+            $scope.isLoading=true;
         })
     }
     $scope.translate = function(target,word){
@@ -78,20 +84,24 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
         //var testUrl='https://newsapi.org/v1/articles?source='+word.split(' ').join('')+'&apiKey=10491e51250442cd96af1b3dbeefe7f1';
         var original='http://api-as01.dev.gale.web:8080/api/v1/items?callback=JSON_CALLBACK&q='+word+'&api_key=api-1234';
         $http({url:original,method:'JSONP'}).then(function success(result){
-            
             $scope.countresults = result.data.count;
             $scope.result = result.data.docs;
+            $scope.isLoading=false;
         });
      }
 
+    $scope.getAllLanguages= function(){
+        var languageURl = 'https://translation.googleapis.com/language/translate/v2/languages?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target=en';
+        return $http({url:languageURl,method:'GET'});
 
+    }
 
     $scope.search = function(translang){
         //var word = $scope.word;
         //var testUrl='https://newsapi.org/v1/articles?source='+word.split(' ').join('')+'&apiKey=10491e51250442cd96af1b3dbeefe7f1';
         var original='http://api-as01.dev.gale.web:8080/api/v1/items?callback=JSON_CALLBACK&q='+translatedword+'&api_key=api-1234';
         $http({url:original,method:'JSONP'}).then(function success(result){
-            
+            $scope.isLoading=true;
             $scope.countresults = result.data.count;
             $scope.result = result.data.docs;
             // $scope.countresults = result.data.articles.length;
@@ -99,7 +109,6 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             if($scope.translated){
             var titleSearchString = '';
             var descriptionSearchString = '';
-            $scope.t = $scope.translang;
             $scope.result.forEach(function(element) {
                 titleSearchString += element.title+'|';
                 descriptionSearchString += element.description + '|';
@@ -120,7 +129,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             });
             
             }
-            
+            $scope.isLoading=false;
         });
     }
 
