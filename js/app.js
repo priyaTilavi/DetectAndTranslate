@@ -76,7 +76,16 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
 
 
     }
-
+     $scope.searchOnly = function(word){
+        //var word = $scope.word;
+        //var testUrl='https://newsapi.org/v1/articles?source='+word.split(' ').join('')+'&apiKey=10491e51250442cd96af1b3dbeefe7f1';
+        var original='http://api-as01.dev.gale.web:8080/api/v1/items?callback=JSON_CALLBACK&q='+word+'&api_key=api-1234';
+        $http({url:original,method:'JSONP'}).then(function success(result){
+            
+            $scope.countresults = result.data.count;
+            $scope.result = result.data.docs;
+        });
+     }
 
 
 
