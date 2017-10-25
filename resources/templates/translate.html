@@ -21,10 +21,6 @@
           <md-option ng-value="translationLanguage">{{translationLanguage}} -- Detected Language</md-option>
           <md-option ng-repeat="lang in languages" ng-value="lang.language" > {{lang.name}} </md-option>
         </md-select>
-        <!-- <md-radio-group ng-model="translang" layout="row" ng-change="search(translang)" style="border-style:groove;border-width:0.5ch;padding-top:5px;padding-bottom:5px;padding-right:65px;padding-left:65px;">
-            <md-radio-button value="en" class="md-primary">English</md-radio-button>
-            <md-radio-button ng-value="translationLanguage" class="md-primary">{{translationLanguage}}</md-radio-button>
-        </md-radio-group> -->
     </div>
     <div layout-align="center center" layout="column">
     <md-progress-circular class="md-accent" md-diameter="40" ng-show="isLoading"></md-progress-circular>
