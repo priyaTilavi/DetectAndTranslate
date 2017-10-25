@@ -37,9 +37,6 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             translatedword = $scope.response[0].translatedText;
             $scope.targettitle = $scope.response[0].detectedSourceLanguage;
             $scope.translationLanguage =  $scope.response[0].detectedSourceLanguage;
-            if($scope.translated){
-                $scope.search(translatedword);
-            }
             $scope.translated = true;
         })
     }
