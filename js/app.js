@@ -27,16 +27,19 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.target='en';
     $scope.show = "translate";
     $scope.translated = false;
+    var translatedword='';
     $scope.translationLanguage= "";
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
-    $scope.translatesearch = function(){
-        $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+$scope.target+'&q='+$scope.word).then(function(response){
+    $scope.translatesearch = function(target,word){
+        $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+target+'&q='+word).then(function(response){
             $scope.response = response.data.data.translations;
-            var translatedword = $scope.response[0].translatedText;
+            translatedword = $scope.response[0].translatedText;
             $scope.targettitle = $scope.response[0].detectedSourceLanguage;
             $scope.translationLanguage =  $scope.response[0].detectedSourceLanguage;
-            $scope.search(translatedword);
+            if($scope.translated){
+                $scope.search(translatedword);
+            }
             $scope.translated = true;
         })
     }
@@ -77,10 +80,10 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
 
 
 
-    $scope.search = function(word){
+    $scope.search = function(translang){
         //var word = $scope.word;
-        var testUrl='https://newsapi.org/v1/articles?source='+word.split(' ').join('')+'&apiKey=10491e51250442cd96af1b3dbeefe7f1';
-        var original='http://api-as01.dev.gale.web:8080/api/v1/items?callback=JSON_CALLBACK&q='+word+'&api_key=api-1234';
+        //var testUrl='https://newsapi.org/v1/articles?source='+word.split(' ').join('')+'&apiKey=10491e51250442cd96af1b3dbeefe7f1';
+        var original='http://api-as01.dev.gale.web:8080/api/v1/items?callback=JSON_CALLBACK&q='+translatedword+'&api_key=api-1234';
         $http({url:original,method:'JSONP'}).then(function success(result){
             
             $scope.countresults = result.data.count;
@@ -90,14 +93,15 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             if($scope.translated){
             var titleSearchString = '';
             var descriptionSearchString = '';
+            $scope.t = $scope.translang;
             $scope.result.forEach(function(element) {
                 titleSearchString += element.title+'|';
                 descriptionSearchString += element.description + '|';
             });
-            $scope.translate($scope.translationLanguage,titleSearchString).then(function(response){
+            $scope.translate(translang,titleSearchString).then(function(response){
                 debugger;
                 $scope.titleTranslateResults = response.data.data.translations[0].translatedText;
-                $scope.translate($scope.translationLanguage,descriptionSearchString).then(function(response){
+                $scope.translate(translang,descriptionSearchString).then(function(response){
                 debugger;
                 $scope.descriptionTranslateResults = response.data.data.translations[0].translatedText;
                 var titles = $scope.titleTranslateResults.split('|');
