@@ -124,27 +124,6 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
                     });
                     
                 });
-            // var titleSearchString = '';
-            // var descriptionSearchString = '';
-            // $scope.result.forEach(function(element) {
-            //     titleSearchString += element.title+'///';
-            //     descriptionSearchString += element.description + '///';
-            // });
-            // $scope.translate(translang,titleSearchString).then(function(response){
-            //     $scope.titleTranslateResults = response.data.data.translations[0].translatedText;
-            //     $scope.translate(translang,descriptionSearchString).then(function(response){
-            //     debugger;
-            //     $scope.descriptionTranslateResults = response.data.data.translations[0].translatedText;
-            //     var titles = $scope.titleTranslateResults.split('///');
-            //     var descriptions = $scope.descriptionTranslateResults.split('///');
-            //     $scope.resultTranslate = [];
-            //     titles.forEach(function(elem,i){
-            //         $scope.resultTranslate.push({title:elem,description:descriptions[i]});
-            //     });
-            // });
-            // });
-            
-            
         });
     }
 
