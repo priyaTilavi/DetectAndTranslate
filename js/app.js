@@ -11,8 +11,8 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
     $scope.translatesearch = function(target,word){
+        $scope.isLoading=true;
         $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+target+'&q='+word).then(function(response){
-            $scope.isLoading=true;
             $scope.response = response.data.data.translations;
             translatedword = $scope.response[0].translatedText;
             $scope.targettitle = $scope.response[0].detectedSourceLanguage;
@@ -30,6 +30,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
                     $scope.search($scope.translationLanguage);
                 }
             $scope.translated = true;
+
             
         })
     }
@@ -42,25 +43,25 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
         return $http.get('https://www.googleapis.com/language/translate/v2/detect?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target=en&q='+r.title);
     }
 
-    $scope.translateTitle = function(r,i){
+    $scope.translateTitle = function(r,i,translang){
         $scope.showTranslate(r).then(function(response){
             $scope.translatedTitle = response.data.data.detections;
             var language = $scope.translatedTitle[0][0].language;
         if (language != 'en') {
             $scope.targettitle = 'en';
             $scope.translate($scope.targettitle,r.title).then(function(response){
-                $scope.result[i].title = response.data.data.translations[0].translatedText;
+                $scope.resultTranslate[i].title = response.data.data.translations[0].translatedText;
             });
             $scope.translate($scope.targettitle,r.description).then(function(response){
-                $scope.result[i].description = response.data.data.translations[0].translatedText;
+                $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
         } else {
-            $scope.targettitle = $scope.translationLanguage;
+            $scope.targettitle = translang;
             $scope.translate($scope.targettitle,r.title).then(function(response){
-                $scope.result[i].title = response.data.data.translations[0].translatedText;
+                $scope.resultTranslate[i].title = response.data.data.translations[0].translatedText;
             });
             $scope.translate($scope.targettitle,r.description).then(function(response){
-                $scope.result[i].description = response.data.data.translations[0].translatedText;
+                $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
         }
         });
@@ -100,30 +101,50 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             }
             // $scope.countresults = result.data.articles.length;
             // $scope.result = result.data.articles;
-            if($scope.translated){
-            var titleSearchString = '';
-            var descriptionSearchString = '';
-            $scope.result.forEach(function(element) {
-                titleSearchString += element.title+'|';
-                descriptionSearchString += element.description + '|';
-            });
-            $scope.translate(translang,titleSearchString).then(function(response){
+            var titlePromises = [];
+            var descriptionPromises = [];
+            for(var i=0;i<10;i++){ 
                 debugger;
-                $scope.titleTranslateResults = response.data.data.translations[0].translatedText;
-                $scope.translate(translang,descriptionSearchString).then(function(response){
-                debugger;
-                $scope.descriptionTranslateResults = response.data.data.translations[0].translatedText;
-                var titles = $scope.titleTranslateResults.split('|');
-                var descriptions = $scope.descriptionTranslateResults.split('|');
-                $scope.resultTranslate = [];
-                titles.forEach(function(elem,i){
-                    $scope.resultTranslate.push({title:elem,description:descriptions[i]});
-                });
-            });
-            });
-            
+                var titleSearchString = $scope.result[i].title;  
+                var descriptionSearchString = $scope.result[i].description;  
+                titlePromises.push($scope.translate(translang,titleSearchString));
+                descriptionPromises.push($scope.translate(translang,descriptionSearchString));;
             }
-            $scope.isLoading=false;
+            var resultTranslate = [];
+            Promise.all(titlePromises.concat(descriptionPromises)).then(function(response){
+                    
+                    for(var i=0,j=10;j<20;i++,j++){
+                       resultTranslate.push({title:response[i].data.data.translations[0].translatedText,description:response[j].data.data.translations[0].translatedText}); 
+                    }
+                    
+                }).then(function(){
+                    $scope.$apply(function(){
+                        $scope.resultTranslate = resultTranslate;
+                        $scope.isLoading=false;
+                    });
+                    
+                });
+            // var titleSearchString = '';
+            // var descriptionSearchString = '';
+            // $scope.result.forEach(function(element) {
+            //     titleSearchString += element.title+'///';
+            //     descriptionSearchString += element.description + '///';
+            // });
+            // $scope.translate(translang,titleSearchString).then(function(response){
+            //     $scope.titleTranslateResults = response.data.data.translations[0].translatedText;
+            //     $scope.translate(translang,descriptionSearchString).then(function(response){
+            //     debugger;
+            //     $scope.descriptionTranslateResults = response.data.data.translations[0].translatedText;
+            //     var titles = $scope.titleTranslateResults.split('///');
+            //     var descriptions = $scope.descriptionTranslateResults.split('///');
+            //     $scope.resultTranslate = [];
+            //     titles.forEach(function(elem,i){
+            //         $scope.resultTranslate.push({title:elem,description:descriptions[i]});
+            //     });
+            // });
+            // });
+            
+            
         });
     }
 

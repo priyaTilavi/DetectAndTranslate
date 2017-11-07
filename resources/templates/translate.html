@@ -1,45 +1,52 @@
-<md-whiteframe class="md-whiteframe-4dp"  layout-align="center center">
-    <br>
+<div layout-padding>
     <div layout-gt-xs="row">
         <span flex="10"></span>
-        <md-input-container flex="50">
+        <md-input-container flex="45">
             <label>Type a word to search</label>
             <input ng-model="word" >
         </md-input-container>
-        <div layout="row">
+          <span layout="column" flex="5"></span>
+        <div layout="row" flex="50">
             <div layout="column"><md-button class="md-raised md-warn" ng-click="translatesearch('en',word)">Translate And Search</md-button></div>
             <div layout="column"><md-button class="md-primary md-raised" ng-click="searchOnly(word)">search</md-button></div>
         </div>
     </div>
     <div layout="row" ng-if="result && translated" >
         <span flex="10"></span>
-        <h4 flex="20" ng-if="!translang">Your Selected Language :: {{translangValue}}</h4>
-        <h4 flex="20" ng-if="translang">Your Selected Language :: {{translangValue}}</h4>
-        <span flex="10"></span>
+        <h4 flex="30" ng-if="!translang">Your Selected Language :: {{translangValue}}</h4>
+        <h4 flex="30" ng-if="translang">Your Selected Language :: {{translangValue}}</h4>
+        <span flex="5"></span>
         <h4 flex="10">Translate To ::</h4>
         <md-select flex="20" ng-model="translang" placeholder="Please select a Langugae" ng-change="search(translang)">
           <md-option ng-value="translationLanguage">{{translationLanguage}} -- Detected Language</md-option>
           <md-option ng-repeat="lang in languages" ng-value="lang.language" > {{lang.name}} </md-option>
         </md-select>
     </div>
-    <div layout-align="center center" layout="column">
-    <md-progress-circular class="md-accent" md-diameter="40" ng-show="isLoading"></md-progress-circular>
+    <div layout="column" layout-padding>
+      <div layout-align="center center" layout="column">
+       <md-progress-circular class="md-accent" md-diameter="40" ng-show="isLoading"></md-progress-circular> 
+      </div>
+      <div layout="row">
+        <span flex="10"></span>
+        <h3 ng-if="countresults" > Number of Results:{{countresults}}</h3>
+      </div>
+      <div layout="row" ng-repeat="r in resultTranslate|limitTo:10"  >
+          <span flex="10"></span>
+          <md-card layout="column" flex="80">
+          <md-card-header>
+            <md-card-header-text>
+              <span class="md-title">{{r.title}}</span>
+            </md-card-header-text>
+          </md-card-header>
+            <md-card-content>
+              <span >{{r.description}}</span>     
+          </md-card-content>
+          
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="translateTitle(r,$index)" class="md-raised">{{show}}</md-button>
+          </md-card-actions>
+        </md-card>
+        <span flex="10"></span>
+      </div>
     </div>
-    <h3 ng-if="countresults" layout-padding> Number of Results:{{countresults}}</h3>
-    <div layout="column" ng-repeat="r in resultTranslate|limitTo:10"  layout-padding>
-        <md-card>
-        <md-card-header>
-          <md-card-header-text>
-            <span class="md-title">{{r.title}}</span>
-          </md-card-header-text>
-        </md-card-header>
-          <md-card-content>
-             <span >{{r.description}}</span>     
-        </md-card-content>
-        
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-click="translateTitle(r,$index)" class="md-raised">{{show}}</md-button>
-        </md-card-actions>
-      </md-card>
-    </div>
-</md-whiteframe>
+</div>
