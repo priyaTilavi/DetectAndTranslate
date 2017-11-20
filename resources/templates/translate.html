@@ -11,14 +11,14 @@
             <div layout="column"><md-button class="md-primary md-raised" ng-click="searchOnly(word)">search</md-button></div>
         </div>
     </div>
-    <div layout="row" ng-if="result && translated" >
+    <div layout="row" ng-if="result" >
         <span flex="10"></span>
         <h4 flex="30" ng-if="!translang">Your Selected Language :: {{translangValue}}</h4>
         <h4 flex="30" ng-if="translang">Your Selected Language :: {{translangValue}}</h4>
         <span flex="5"></span>
         <h4 flex="10">Translate To ::</h4>
-        <md-select flex="20" ng-model="translang" placeholder="Please select a Langugae" ng-change="search(translang)">
-          <md-option ng-value="translationLanguage">{{translationLanguage}} -- Detected Language</md-option>
+        <md-select flex="20" ng-model="translang" placeholder="Please select a Langugae" ng-change="search(translang)" >
+          <!-- <md-option ng-value="translationLanguage">{{translationLanguage}} -- Detected Language</md-option> -->
           <md-option ng-repeat="lang in languages" ng-value="lang.language" > {{lang.name}} </md-option>
         </md-select>
     </div>
@@ -43,7 +43,7 @@
           </md-card-content>
           
           <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-click="translateTitle(r,$index)" class="md-raised">{{show}}</md-button>
+            <md-button ng-click="translateTitle(r,$index,translationLanguage)" class="md-raised">{{show}}</md-button>
           </md-card-actions>
         </md-card>
         <span flex="10"></span>

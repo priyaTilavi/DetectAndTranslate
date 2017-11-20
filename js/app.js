@@ -26,10 +26,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.getAllLanguages().then(function success(response){
                  $scope.languages = response.data.data.languages;
             });
-                if(!$scope.translated){
                     $scope.search($scope.translationLanguage);
-                }
-            $scope.translated = true;
 
             
         })
