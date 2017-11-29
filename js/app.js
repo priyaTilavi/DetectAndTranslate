@@ -57,6 +57,9 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.translate($scope.targettitle,r.description).then(function(response){
                 $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
+            if($scope.translang != null){
+                $scope.resultTranslate[i].show += $scope.translang;
+            }
             $scope.resultTranslate[i].show += $scope.translangValue;
         } else {
             $scope.targettitle = translang;
