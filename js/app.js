@@ -2,7 +2,6 @@ var app = angular.module('detectApp', ['ngMaterial','ngRoute']);
 
 app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.target='en';
-    $scope.show = "translate";
     $scope.translated = false;
     var translatedword='';
     $scope.isLoading=false;
@@ -11,12 +10,14 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
     $scope.translatesearch = function(target,word){
+        $scope.show = "Show in ";
         $scope.isLoading=true;
         $http.get('https://www.googleapis.com/language/translate/v2?key=AIzaSyCSkJzCc7-jPArWHMYCeWSaIstDTzO7iYY&target='+target+'&q='+word).then(function(response){
             $scope.response = response.data.data.translations;
             translatedword = $scope.response[0].translatedText;
             $scope.targettitle = $scope.response[0].detectedSourceLanguage;
             $scope.translationLanguage =  $scope.response[0].detectedSourceLanguage;
+            $scope.show += "english";
             for(var i=0;i<$scope.languages.length;i++){
                 if($scope.languages[i].language === $scope.translationLanguage){
                     $scope.translangValue=$scope.languages[i].name;
@@ -42,6 +43,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
 
     $scope.translateTitle = function(r,i,translang){
         $scope.showTranslate(r).then(function(response){
+            $scope.show = "Show in ";
             $scope.translatedTitle = response.data.data.detections;
             var language = $scope.translatedTitle[0][0].language;
         if (language != 'en') {
@@ -52,6 +54,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.translate($scope.targettitle,r.description).then(function(response){
                 $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
+            $scope.show += $scope.translangValue;
         } else {
             $scope.targettitle = translang;
             $scope.translate($scope.targettitle,r.title).then(function(response){
@@ -60,6 +63,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.translate($scope.targettitle,r.description).then(function(response){
                 $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
+            $scope.show += "English";
         }
         });
 
