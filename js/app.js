@@ -100,8 +100,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             // $scope.result = result.data.articles;
             var titlePromises = [];
             var descriptionPromises = [];
-            for(var i=0;i<10;i++){ 
-                debugger;
+            for(var i=0;i<10;i++){
                 var titleSearchString = $scope.result[i].title;  
                 var descriptionSearchString = $scope.result[i].description;  
                 titlePromises.push($scope.translate(translang,titleSearchString));

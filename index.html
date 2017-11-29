@@ -6,16 +6,31 @@
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet">
+        <style>
+            .md-errors-spacer{
+                min-width: 0;
+                display:none;
+            }
+        </style>
     </head>
-    <body ng-app="detectApp">
-        <md-toolbar class="md-hue-2 " md-colors="{color: 'yellow-A100', 'border-color': 'primary-600'}">
-            <div class="md-toolbar-tools">
-                <h2 flex md-truncate style="font-family: 'Lobster', cursive;font-size:30px">
-                    Translate
-                </h2>
+    <body ng-app="detectApp"  style="background-color:#CBCBCB ">
+    <div style="height: 15px;background-color: #CBCBCB"></div>
+    <div style="height: 30px; background-color: #333"></div>
+        <md-toolbar class="md-hue-2" style="background-color:#444 ">
+            <div class="md-toolbar-tools" >
+
+               <h1 style="font-family: 'Arial, Helvetica, sans-serif';margin-left: 200px;margin-right: 200px; font-weight: bolder">
+                   TRANSLATE AND SEARCH
+               </h1>
+                <span flex></span>
+                   <i class="material-icons">home</i>Home
+                   <i class="material-icons" style="padding-left: 20px">g_translate</i>Translate
+
+                <span flex="15"></span>
             </div>
         </md-toolbar>
-        <div ng-view></div>
+    <div style="height: 30px; background-color: #333"></div>
+    <div ng-view  style="background-color:#CBCBCB "></div>
         
          <!-- Angular Material requires Angular.js Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
@@ -32,5 +47,6 @@
 
     <!-- custom js files -->
     <script src="js/app.js"></script>
+
     </body>
 </html>
