@@ -28,7 +28,7 @@
               <span layout="row">
                   <h5 flex="50" ng-if="!translang">Your Selected Language :: {{translangValue}}</h5>
                   <h5 flex="50" ng-if="translang">Your Selected Language :: {{translangValue}}</h5>
-                  <h5 flex="10">Translate To ::</h5>
+                  <h5 flex="15">Language of Search::</h5>
                   <md-select flex="20" ng-model="translang" placeholder="Please select a Langugae" ng-change="search(translang)" >
                       <!-- <md-option ng-value="translationLanguage">{{translationLanguage}} -- Detected Language</md-option> -->
                       <md-option ng-repeat="lang in languages" ng-value="lang.language" > {{lang.name}} </md-option>
