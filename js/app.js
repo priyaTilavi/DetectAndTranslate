@@ -4,11 +4,13 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     $scope.target='en';
     $scope.translated = false;
     var translatedword='';
+    $scope.show="";
     $scope.isLoading=false;
     $scope.languages=[];
     $scope.translationLanguage= "";
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
+    $scope.click=false;
     $scope.translatesearch = function(target,word){
         $scope.show = "Show in ";
         $scope.isLoading=true;
@@ -42,8 +44,9 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
     }
 
     $scope.translateTitle = function(r,i,translang){
+        $scope.click=true;
         $scope.showTranslate(r).then(function(response){
-            $scope.show = "Show in ";
+            $scope.resultTranslate[i].show = "Show in ";
             $scope.translatedTitle = response.data.data.detections;
             var language = $scope.translatedTitle[0][0].language;
         if (language != 'en') {
@@ -54,7 +57,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.translate($scope.targettitle,r.description).then(function(response){
                 $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
-            $scope.show += $scope.translangValue;
+            $scope.resultTranslate[i].show += $scope.translangValue;
         } else {
             $scope.targettitle = translang;
             $scope.translate($scope.targettitle,r.title).then(function(response){
@@ -63,7 +66,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             $scope.translate($scope.targettitle,r.description).then(function(response){
                 $scope.resultTranslate[i].description = response.data.data.translations[0].translatedText;
             });
-            $scope.show += "English";
+            $scope.resultTranslate[i].show += "English";
         }
         });
 
@@ -114,7 +117,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
             Promise.all(titlePromises.concat(descriptionPromises)).then(function(response){
                     
                     for(var i=0,j=10;j<20;i++,j++){
-                       resultTranslate.push({title:response[i].data.data.translations[0].translatedText,description:response[j].data.data.translations[0].translatedText}); 
+                       resultTranslate.push({title:response[i].data.data.translations[0].translatedText,description:response[j].data.data.translations[0].translatedText,show:"show in english"}); 
                     }
                     
                 }).then(function(){
