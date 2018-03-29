@@ -1,9 +1,8 @@
-var app = angular.module('systranApp', []);
-
-app.controller('translateSysContrl',[ '$http','$scope', function ($http,$scope){
+angular.module('microApp', [])
+.controller('translateMicroContrl',[ '$http','$scope', function ($http,$scope){
     $scope.target='en';
     $scope.translated = false;
-    var baseURL = 'https://api-platform.systran.net/translation/text/translate?key=1051ecf3-4a10-41eb-ad73-18ee21e8dd68';
+    var baseURL = 'https://api.microsofttranslator.com/V2/Http.svc/Translate?';
     var translatedword='';
     $scope.show="";
     $scope.isLoading=false;
@@ -12,14 +11,19 @@ app.controller('translateSysContrl',[ '$http','$scope', function ($http,$scope){
     $scope.titleTranslateResults = "";
     $scope.descriptionTranslateResults = "";
     $scope.click=false;
+    var subscriptionKey ='2852b458fbe0449abaed63718fd56739';
     $scope.translatesearch = function(target,word){
         $scope.show = "Show in ";
         $scope.isLoading=true;
-        $http.get(baseURL+'&target='+target+'&input='+word).then(function(response){
+        //$http.defaults.headers.common['Ocp-Apim-Subscription-Key'] = "2852b458fbe0449abaed63718fd56739";
+        //$http.defaults.headers.common['Content-Type'] = "text/xml";
+        $http.get(baseURL+'?to='+target+'&text='+word, {headers : {
+			'Content-Type' : 'text/xml',
+			'Ocp-Apim-Subscription-Key' : subscriptionKey,
+		}}).then(function(response){
             debugger;
             $scope.response = response.data.outputs;
             translatedword = $scope.response[0].output;
-            $scope.translatedWord = translatedword;
             $scope.targettitle = $scope.response[0].detectedLanguage;
             $scope.translationLanguage =  $scope.response[0].detectedLanguage;
             

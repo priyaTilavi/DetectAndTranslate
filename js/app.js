@@ -112,9 +112,10 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
                     break;
                 }
             }
+            $scope.isLoading=false;
             // $scope.countresults = result.data.articles.length;
             // $scope.result = result.data.articles;
-            var titlePromises = [];
+            /*var titlePromises = [];
             var descriptionPromises = [];
             for(var i=0;i<10;i++){
                 var titleSearchString = $scope.result[i].title;  
@@ -135,7 +136,7 @@ app.controller('translateContrl',[ '$http','$scope', function ($http,$scope){
                         $scope.isLoading=false;
                     });
                     
-                });
+                });*/
         });
     }
 
