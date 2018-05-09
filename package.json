@@ -20,8 +20,11 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
+    "csv-write-stream": "^2.0.0",
     "express": "^4.15.4",
     "express-session": "^1.15.5",
-    "google-translate": "^2.0.5"
+    "fs": "0.0.1-security",
+    "google-translate": "^2.0.5",
+    "mz": "^2.7.0"
   }
 }
